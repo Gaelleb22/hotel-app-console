@@ -1,10 +1,12 @@
 //saisie utilisateur
 var readline = require('readline');
+var service = require('./service');
 
 var saisie = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
+
 
 //fonction start
 function start() {
@@ -15,7 +17,11 @@ function start() {
         switch (choix) {
             case '1':
                 console.log('>> Liste des clients');
-                start();
+                service.list((clients) => {
+                    console.log(clients);
+                    start();
+                });
+                
                 break;
             case '99':
                 console.log('Aurevoir');
