@@ -1,12 +1,12 @@
 //saisie utilisateur
 var readline = require('readline');
 var service = require('./service');
+//const { start } = require('repl');
 
 var saisie = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-
 
 //fonction start
 function start() {
@@ -21,18 +21,11 @@ function start() {
         switch (choix) {
             case '1':
                 console.log('\x1b[32m%s\x1b[0m', '>> Liste des clients');
-                service.list((clients) => {
-                    for(i=0; i<clients.length; i++){
-                        console.log('\x1b[32m%s\x1b[0m', i+1, clients[i].nom, clients[i].prenoms);
-                    }
-                    
-                    start();
-                });
-
+                lister();
                 break;
             case '2':
-                console.log('\x1b[33m%s\x1b[0m', 'Cette fonction n\'est pas encore disponible');
-                start();
+                console.log('\x1b[32m%s\x1b[0m', 'Nouveau client');
+                menuCreerClient(saisie);
                 break;
             case '3':
                 console.log('\x1b[33m%s\x1b[0m', 'Cette fonction n\'est pas encore disponible');
@@ -54,6 +47,32 @@ function start() {
     });
 
 }
+
+//lister clients
+function lister() {
+    service.list((clients) => {
+        for (i = 0; i < clients.length; i++) {
+            console.log('\x1b[32m%s\x1b[0m', i + 1, clients[i].nom, clients[i].prenoms);
+        }
+        start();
+    });
+}
+
+//creer clients
+function menuCreerClient(saisie) {
+    saisie.question('nom:', function (nom) {
+        saisie.question('prenoms:', function (prenoms) {
+            service.creerClient(nom, prenoms, function(clientCree) {
+                console.log('Client créé', clientCree);
+                start();
+            }, function(err) {
+                console.log('erreur', err);
+                start();
+            })
+        })
+    })
+}
+
 exports.start = start;
 
 
