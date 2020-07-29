@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "application console communiquant avec hotel-web-api",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node index.mjs"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
